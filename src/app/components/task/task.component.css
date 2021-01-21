@@ -1,0 +1,17 @@
+.tareaPrincipal {
+    margin-bottom: 1rem;
+}
+
+.subTarea {
+    margin-left: 1rem;
+    margin-bottom: 1.5rem;
+}
+
+.tables {
+    display: flex;
+}
+
+.id {
+    padding: 2px 2px 3px 2px;
+    text-align: center;
+}

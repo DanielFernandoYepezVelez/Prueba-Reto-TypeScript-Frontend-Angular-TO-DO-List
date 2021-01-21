@@ -1,0 +1,43 @@
+<form (ngSubmit)="guardarTareaPrincipal(forma)" #forma="ngForm">
+    <p>
+        <input type="text" name="name" ngModel placeholder="TO-DO-List" required minlength="4">
+        <button type="submit">Nueva Lista</button>
+    </p>
+</form>
+
+<div *ngIf="arrayListTaskName.length">
+    <fieldset class="tareaPrincipal" *ngFor="let name of arrayListTaskName; let i = index">
+        <legend> {{ name }} <button>Eliminar</button> </legend>
+
+        <div class="subTarea">
+            <form (ngSubmit)="guardarSubtarea(forma, i)" #forma="ngForm">
+                <p>
+                    <input type="text" name="name" ngModel placeholder="¿Que Piensas Hacer?" required minlength="4">
+                    <button type="submit">Crear</button>
+                </p>
+            </form>
+
+            <div class="tables">
+                <table>
+                    <thead>
+                        <tr>
+                            <th>ID</th>
+                            <th>Tarea</th>
+                            <th>¿Completado?</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr *ngFor="let name of arrayListSubTaskName">
+                            <td>{{ name }}</td>
+                            <td><input type="checkbox" name="#" id="#"></td>
+                            <button>Eliminar</button> <button>Editar</button>
+                        </tr>
+                    </tbody>
+                </table>
+            </div>
+        </div>
+
+        <hr />
+
+    </fieldset>
+</div>
