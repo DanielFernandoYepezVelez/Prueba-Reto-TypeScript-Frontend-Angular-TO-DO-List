@@ -5,7 +5,7 @@
     </p>
 </form>
 
-<div *ngIf="arrayListTaskName.length">
+<div *ngIf="arrayTaskComplete.length">
     <fieldset class="tareaPrincipal" *ngFor="let name of arrayListTaskName; let i = index">
         <legend> {{ name }} <button>Eliminar</button> </legend>
 
@@ -17,20 +17,32 @@
                 </p>
             </form>
 
-            <div class="tables">
+            <div class="tables" *ngIf="arrayTaskComplete.length">
                 <table>
                     <thead>
                         <tr>
                             <th>ID</th>
+                        </tr>
+                    </thead>
+                    <tbody *ngFor="let item of arrayTaskComplete[i].subTaskId">
+                        <tr *ngFor="let subTaskId of item">
+                            <td class="id">{{ subTaskId }}</td>
+                        </tr>
+                    </tbody>
+                </table>
+
+                <table>
+                    <thead>
+                        <tr>
                             <th>Tarea</th>
                             <th>¿Completado?</th>
                         </tr>
                     </thead>
-                    <tbody>
-                        <tr *ngFor="let name of arrayListSubTaskName">
-                            <td>{{ name }}</td>
+                    <tbody *ngFor="let item of arrayTaskComplete[i].subTaskName">
+                        <tr *ngFor="let subTaskName of item; let indexSub = index">
+                            <td>{{ subTaskName }}</td>
                             <td><input type="checkbox" name="#" id="#"></td>
-                            <button>Eliminar</button> <button>Editar</button>
+                            <button (click)="eliminarSubTarea(i, indexSub)">Eliminar</button> <button>Editar</button>
                         </tr>
                     </tbody>
                 </table>

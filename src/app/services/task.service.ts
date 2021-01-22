@@ -26,7 +26,7 @@ export class TaskService {
   public mainTasks(): Observable<Tarea[]> {
     return this.http.get<Tarea[]>(`${this.url}/task/tareas`, { headers: this.httpHeaders })
                     .pipe(
-                      tap(res => console.log("Servicio: ", /* res */))
+                      tap(res => console.log("Lista Tareas Creadas: ", /* res */))
                     );
   }
 

@@ -51,13 +51,10 @@ export class SubtareasService {
    * <ResponseDeleteSubTaskServer> --> Respuesta Del Servidor
    * <Void> --> Lo Que Retorna El Observable
    */
-  public deleteTask(id: number, indice: number): Observable<void> {
+  public deleteTask(id: number): Observable<void> {
     return this.http.delete<ResponseDeleteTaskServer>(`${this.url}/subtask/subtarea/${id}`, { headers: this.httpHeaders })
       .pipe(
-        tap((resServer) => {
-          console.log(resServer);
-
-        }),
+        tap(resServer => console.log(resServer)),
         map((res) => console.log(res.mensaje))
       );
   }

@@ -14,18 +14,16 @@ import { SubtareasService } from '../../services/subtask.service';
 export class TaskComponent implements OnInit {
   public arrayListTaskId: number[] = [];
   public arrayListTaskName: string[] = [];
-  
+
   public arrayListSubTaskId: number[] = [];
   public arrayListSubTaskName: string[] = [];
 
-  public objectTask: any = [];
-  
-  // public arrayListSubTaskAll = [[this.arrayListSubTaskId], [this.arrayListSubTaskName]];
+  public arrayTaskComplete: any[] = [];
 
   constructor(private taskService: TaskService, public subtaskService: SubtareasService) { }
 
   ngOnInit(): void {
-    this.taskService.mainTasks().subscribe(res => { 
+    this.taskService.mainTasks().subscribe(res => {
       this.arrayListTaskId = res.map(task => task.id);
       this.arrayListTaskName = res.map(task => task.name);
     });
@@ -38,18 +36,26 @@ export class TaskComponent implements OnInit {
   public guardarTareaPrincipal(forma: NgForm): void {
     if (forma.valid) {
       this.taskService.createTask(forma.value).subscribe(() => {
-        this.taskService.mainTasks().subscribe(res => { 
+        this.taskService.mainTasks().subscribe(res => {
+
           this.arrayListTaskId = res.map(task => task.id);
-            this.arrayListTaskName = res.map(task => task.name);
+          this.arrayListTaskName = res.map(task => task.name);
 
-            const taskComplete = {
-                id: this.arrayListTaskId,
-                name: this.arrayListTaskName,
-            }
+          const taskInicial = { id: 0, name: '' };
 
-              this.objectTask.push(taskComplete);
-              console.log(this.objectTask)
+          if (this.arrayListTaskId.length > 1 && this.arrayListTaskName.length > 1) {
+            taskInicial.id = this.arrayListTaskId[this.arrayListTaskId.length - 1];
+            taskInicial.name = this.arrayListTaskName[this.arrayListTaskName.length - 1];
+          } else {
+            taskInicial.id = this.arrayListTaskId[0];
+            taskInicial.name = this.arrayListTaskName[0];
+          }
+
+          this.arrayTaskComplete.push(taskInicial);
+          this.arrayListTaskName = this.arrayTaskComplete.map<string>(task => task.name);
           });
+
+          console.log(this.arrayTaskComplete)
       });
       forma.reset();
     }
@@ -81,19 +87,26 @@ export class TaskComponent implements OnInit {
       this.subtaskService.createSubTask(forma.value, this.arrayListTaskId[index]).subscribe(() => {
         this.subtaskService.subtaskIdTask(this.arrayListTaskId[index]).subscribe((res) => {
           this.arrayListSubTaskId = res.map(subtask => subtask.id);
-          this.arrayListSubTaskName = res.map(subtask => subtask.name);  
-        
+          this.arrayListSubTaskName = res.map(subtask => subtask.name);
 
-          this.objectTask[index].subTaskId = [ this.arrayListSubTaskId ];
-          this.objectTask[index].subTaskName = [ this.arrayListSubTaskName ]
-
-
-          console.log(this.objectTask)
-
+          /* CONCEPTO IMPORTANTE!!!!! */
+          /* En La Posición Cero Del Array Y No Del Objeto, Aunque Se Va A Agregar Al Objeto
+             De La Posición 0 Vas Agregar Una Nueva Propidad Para El Objeto Que Este Es Dicha
+             Posición Con El Nombre De subTaskId Y subTaskName */
+          this.arrayTaskComplete[index].subTaskId = [ this.arrayListSubTaskId ];
+          this.arrayTaskComplete[index].subTaskName = [ this.arrayListSubTaskName ];
         });
       });
       forma.reset();
     }
   }
 
+  public eliminarSubTarea(indexTask: number, indexSubTask: number): void {
+    const idSubTask: number = this.arrayTaskComplete[indexTask].subTaskId[0][indexSubTask];
+
+    this.subtaskService.deleteTask(idSubTask).subscribe(res => {
+      this.arrayTaskComplete[indexTask].subTaskId[0].splice(indexSubTask, 1);
+      this.arrayTaskComplete[indexTask].subTaskName[0].splice(indexSubTask, 1);
+    });
+  }
 }
