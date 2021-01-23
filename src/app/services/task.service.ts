@@ -26,7 +26,7 @@ export class TaskService {
   public mainTasks(): Observable<Tarea[]> {
     return this.http.get<Tarea[]>(`${this.url}/task/tareas`, { headers: this.httpHeaders })
                     .pipe(
-                      tap(res => console.log("Lista Tareas Creadas: ", /* res */))
+                      tap((res) => {/*console.log("Lista Tareas Creadas: ",  res )*/}),
                     );
   }
 
@@ -39,7 +39,7 @@ export class TaskService {
     return this.http.post<ResponseTaskServer>(`${this.url}/task/crear`, name, { headers: this.httpHeaders })
                     .pipe(
                       /* tap((resServer) => console.log(resServer)), */
-                      map((res) => console.log("Tarea Creada: ", /* res.tarea */))
+                      map((res) => {/*console.log("Tarea Creada: ", res.tarea )*/}),
                     );
   }
 
@@ -48,13 +48,12 @@ export class TaskService {
    * <ResponseTaskServer> --> Respuesta Del Servidor
    * <Void> --> Lo Que Retorna El Observable
    */
-  public deleteTask(id: number, indice: number): Observable<void> {
+  public deleteTask(id: number): Observable<void> {
     return this.http.delete<ResponseDeleteTaskServer>(`${this.url}/task/tarea/${id}`, { headers: this.httpHeaders })
                     .pipe(
-                      tap((resServer) => {
-                        console.log(resServer.mensaje);
-                      }),
-                      map((res) => console.log(res))
+                      /* tap((resServer) => console.log(resServer)), */
+                      map((res) => {/*console.log(res.mensaje)*/}),
                     );
   }
+  
 }

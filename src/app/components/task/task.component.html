@@ -7,7 +7,7 @@
 
 <div *ngIf="arrayTaskComplete.length">
     <fieldset class="tareaPrincipal" *ngFor="let name of arrayListTaskName; let i = index">
-        <legend> {{ name }} <button>Eliminar</button> </legend>
+        <legend> {{ name }} <button class="delete" (click)="eliminarTareaPrincipal(i)">Eliminar</button> </legend>
 
         <div class="subTarea">
             <form (ngSubmit)="guardarSubtarea(forma, i)" #forma="ngForm">
@@ -24,7 +24,7 @@
                             <th>ID</th>
                         </tr>
                     </thead>
-                    <tbody *ngFor="let item of arrayTaskComplete[i].subTaskId">
+                    <tbody *ngFor="let item of arrayTaskComplete[i]?.subTaskId">
                         <tr *ngFor="let subTaskId of item">
                             <td class="id">{{ subTaskId }}</td>
                         </tr>
@@ -38,11 +38,11 @@
                             <th>¿Completado?</th>
                         </tr>
                     </thead>
-                    <tbody *ngFor="let item of arrayTaskComplete[i].subTaskName">
+                    <tbody *ngFor="let item of arrayTaskComplete[i]?.subTaskName">
                         <tr *ngFor="let subTaskName of item; let indexSub = index">
                             <td>{{ subTaskName }}</td>
-                            <td><input type="checkbox" name="#" id="#"></td>
-                            <button (click)="eliminarSubTarea(i, indexSub)">Eliminar</button> <button>Editar</button>
+                            <td class="check"><input type="checkbox" name="#" id="#"></td>
+                            <button class="delete" (click)="eliminarSubTarea(i, indexSub)">Eliminar</button> <button class="edit">Editar</button>
                         </tr>
                     </tbody>
                 </table>

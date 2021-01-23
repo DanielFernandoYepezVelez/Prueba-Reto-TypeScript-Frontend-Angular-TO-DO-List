@@ -27,9 +27,7 @@ export class SubtareasService {
   public subtaskIdTask(idTask: number): Observable<Tarea[]> {
     return this.http.get<Tarea[]>(`${this.url}/subtask/subtareas/${idTask}`, { headers: this.httpHeaders })
       .pipe(
-        tap((res) => {
-          console.log("Lista Todas Las SubTareas: ", /* res */);
-        }),
+        tap((res) => {/* console.log("Lista Todas Las SubTareas: ",  res ), */}),
       );
   }
 
@@ -42,7 +40,7 @@ export class SubtareasService {
     return this.http.post<ResponseCreateSubTaskServer>(`${this.url}/subtask/crear/${id}`, name, { headers: this.httpHeaders })
       .pipe(
         /* tap((resServer) => console.log(resServer)), */
-        map((res) => console.log("Se Crea Tarea Completa:", /* res.tareaCompleta.tarea */ ))
+        map((res) => { /*console.log("Se Crea Tarea Completa:", res.tareaCompleta.tarea)*/}),
       );
   }
 
@@ -54,8 +52,9 @@ export class SubtareasService {
   public deleteTask(id: number): Observable<void> {
     return this.http.delete<ResponseDeleteTaskServer>(`${this.url}/subtask/subtarea/${id}`, { headers: this.httpHeaders })
       .pipe(
-        tap(resServer => console.log(resServer)),
-        map((res) => console.log(res.mensaje))
+        /* tap(resServer => console.log(resServer)), */
+        map((res) => {/* console.log(res.mensaje) */}),
       );
   }
+
 }
